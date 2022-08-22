@@ -20,3 +20,7 @@ Documentation
 -------------
 
 `Complete documentation for the project, with detailed instructions on how to build and use it <https://www.brachiograph.art/>`_
+#
+
+sudo pigpiod
+source env/bin/activate
