@@ -1,4 +1,5 @@
 
+from turtle import delay
 from brachiograph import BrachioGraph
 
 import paho.mqtt.client as mqttClient
@@ -27,14 +28,30 @@ def on_connect(client, userdata, flags, rc):
     else:
   
         print("Connection failed")
-  
-def on_message(client, userdata, message):
-    print("Message received:"  + str(message.payload))
-    heartBeatValue = int(bytes.decode(message.payload)) +1000
 
-    if heartBeatValue <  140 :
-        bg.box(bounds=[-2, 7, 2, 11])
-        print("drucken")
+heartBeatAverage = 0 
+counter = 0
+def on_message(client, userdata, message):
+    global heartBeatAverage,heartBeatValue, counter
+    print("Message received:"  + str(message.payload))
+    heartBeatValue = int(bytes.decode(message.payload))
+    heartBeatAverage = heartBeatValue + heartBeatAverage
+    counter += 1
+    print(heartBeatAverage / counter)
+    print("Counter: " + str(counter))
+    print("add heartbeat to Average, the new Average is: " + str(heartBeatAverage/counter))
+    if counter == 20 :
+        heartBeatAverage = heartBeatAverage / counter
+        print("print started with the Average of" + str(heartBeatAverage) )
+        bg.box(bounds=[-2,4,2+0.00375094*heartBeatAverage,8+0.00375094*heartBeatAverage])
+        print("print finished")
+        heartBeatAverage = 0
+        counter = 0
+
+        
+    
+    #if heartBeatValue ==  140 :
+        
    
 
   
@@ -58,6 +75,7 @@ while Connected != True:    #Wait for connection
     time.sleep(0.1)
   
 client.subscribe("coco/heart")
+
   
 try:
     while True:
