@@ -1,9 +1,9 @@
 
-from turtle import delay
+
 from brachiograph import BrachioGraph
 
 import paho.mqtt.client as mqttClient
-import time
+
 
 
 
@@ -58,8 +58,8 @@ def on_message(client, userdata, message):
 Connected = False   #global variable for the state of the connection
 broker_address= "mqtt.eclipseprojects.io"
 port = 1883
-user = "Galaxy"
-password = "OrionBetaAlpha72"
+user = ""
+password = ""
 
 
 client = mqttClient.Client("Python")               #create new instance
